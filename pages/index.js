@@ -1,9 +1,12 @@
 import Head from 'next/head'
 import Image from 'next/image'
+import { useState } from 'react'
 import {BsSearch} from 'react-icons/bs'
+import Weather from '../components/Weather'
 
 
 export default function Home() {
+   const [city, setCity] = useState('')
   return (
     <div >
       <Head>
@@ -28,10 +31,13 @@ export default function Home() {
       <div className='relative flex justify-between items-center w-full max-w-lg m-auto pt-24 text-white z-10'>
         <form className='flex justify-between items-center w-full m-auto py-2 px-5 bg-transparent border border-gray-300 rounded-3xl'>
 
-          <input className="bg-transparent border-none focus:outline-none text-xl text-white" input = "text" placeholder='Enter City'/>
+          <input onChange = {(e) => setCity(e.target.value)} className="bg-transparent border-none focus:outline-none text-xl text-white" input = "text" placeholder='Enter City'/>
           <button><BsSearch/></button>
         </form>
       </div>
+
+      {/*Weather*/}
+      <Weather/>
 
     </div>
   )
