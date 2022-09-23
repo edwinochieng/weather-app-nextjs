@@ -1,19 +1,29 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {BsSearch} from 'react-icons/bs'
 import Weather from '../components/Weather'
+import {useQuery} from '@tanstack/react-query'
+import Axios from 'axios'
+
+
 
 
 export default function Home() {
    const [city, setCity] = useState('')
-   const [weather, setWeather] = useState([]);
-   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${process.env.REACT_API_KEY}`
+  
 
-
-
-
+   const url = `https://api.openweathermap.org/data/2.5/weather?q=London&appid=${process.env.NEXT_PUBLIC_API_KEY}`
+    
+   const getWeather = () => {
+    Axios.get(url).then((res) => {
+         res.data
+       console.log(res.data);
+    })
+   }
    
+   const {data} = useQuery(["weather"], getWeather);
+
   return (
     <div >
       <Head>
@@ -44,7 +54,7 @@ export default function Home() {
       </div>
 
       {/*Weather*/}
-      <Weather/>
+      <Weather data={data}/>
 
     </div>
   )
