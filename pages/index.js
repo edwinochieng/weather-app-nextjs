@@ -1,10 +1,9 @@
 import Head from 'next/head'
 import Image from 'next/image'
-import {useEffect,useState } from 'react'
+import {useEffect,useState} from 'react'
 import {BsSearch} from 'react-icons/bs'
 import Weather from '../components/Weather'
-import {useQuery} from '@tanstack/react-query'
-import Axios from 'axios'
+
 
 
 
@@ -14,19 +13,25 @@ export default function Home() {
    const [weather, setWeather] = useState([])
   
 
-   const url = `https://api.openweathermap.org/data/2.5/weather?q=London&units=metric&appid=${process.env.NEXT_PUBLIC_API_KEY}`
+   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${process.env.NEXT_PUBLIC_API_KEY}`
     
    const getWeather = async () => {
      const api = await fetch(url)
      const data = await api.json()
-
      setWeather(data)
      console.log(weather);
     }
    
-   useEffect(()=>{
-    getWeather();
+  useEffect(()=>{
+  getWeather();
+  
    },[])  
+
+   const handleSubmit = (e) => {
+    e.preventDefault();
+    getWeather();
+    
+   }
 
   return (
     <div >
@@ -49,16 +54,17 @@ export default function Home() {
 
       {/*Search*/}
 
-      <div className='relative flex justify-between items-center w-full max-w-lg m-auto pt-24 text-white z-10'>
-        <form className='flex justify-between items-center w-full m-auto py-2 px-5 bg-transparent border border-gray-300 rounded-3xl'>
+      <div className='relative flex justify-between items-center w-full max-w-lg m-auto pt-24 px-1 text-white z-10'>
+        <form onSubmit ={handleSubmit} className='flex justify-between items-center w-full m-auto py-2 px-5 bg-transparent border border-gray-300 rounded-3xl'>
 
-          <input onChange = {(e) => setCity(e.target.value)} className="bg-transparent border-none focus:outline-none text-xl text-white" input = "text" placeholder='Enter City'/>
-          <button><BsSearch/></button>
+          <input onChange = {(e) => setCity(e.target.value)} className="bg-transparent border-none focus:outline-none text-xl text-white" input = "text" placeholder='Enter City' value={city}/>
+          <button onClick={getWeather}><BsSearch/></button>
         </form>
       </div>
 
       {/*Weather*/}
-      <Weather data={weather}/>
+      {weather.main &&  <Weather data={weather}/>}
+     
 
     </div>
   )

@@ -12,8 +12,8 @@ function Weather({data}) {
         <div className='flex justify-between px-4 pt-6'>
             <div className='px-6 flex flex-col items-center justify-center'>
                 
-                <Image src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} height = '100' width = '100' alt = 'weather icon' />
-                <p className='font-semibold text-sm text-gray-800'>{data.weather[0].description}</p>
+                <Image src={`http://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`} height = '100' width = '100' alt = {data.weather[0].description} />
+                <p className='font-semibold text-sm text-gray-800 text-center'>{data.weather[0].description}</p>
             </div>
 
             <div className='px-8'>
